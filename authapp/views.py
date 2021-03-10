@@ -18,7 +18,8 @@ def login(request):
                 return HttpResponseRedirect(reverse('index'))
     else:
         form = UserLoginForm()
-    context = {'form': form}
+    context = {'form': form,
+               'title': 'GeekShop - Авторизация'}
     return render(request, 'authapp/login.html', context)
 
 
@@ -30,7 +31,8 @@ def register(request):
             return HttpResponseRedirect(reverse('auth:login'))
     else:
         form = UserRegisterForm()
-    context = {'form': form}
+    context = {'form': form,
+               'title': 'GeekShop - Регистрация'}
     return render(request, 'authapp/register.html', context)
 
 
