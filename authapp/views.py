@@ -27,7 +27,7 @@ def login(request):
 
 def register(request):
     if request.method == 'POST':
-        form = UserRegisterForm(data=request.POST)
+        form = UserRegisterForm(data=request.POST, files=request.FILES)
         if form.is_valid():
             form.save()
             messages.success(request, 'Вы успешно зарегистрированы')
