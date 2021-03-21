@@ -16,6 +16,6 @@ def products(request, pk=None):
     context = {
         'title': 'GeekShop - Каталог',
         'category': category,
-        'products': product
+        'products': product,
     }
     return render(request, 'mainapp/products.html', context)
