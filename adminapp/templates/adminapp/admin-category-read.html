@@ -1,4 +1,7 @@
 {% extends 'adminapp/base.html' %}
+{% block title %}
+    {{ title }}
+{% endblock %}
 {% block content %}
     <div class="container-fluid">
         <h1 class="mt-4">Категории</h1>
@@ -23,7 +26,7 @@
                         </tr>
                         </tfoot>
                         <tbody>
-                        {% for category in categories %}
+                        {% for category in object_list %}
                             <tr>
                                 <td><a href="{% url 'admin_staff:admin_category_update' category.id %}"
                                        style="color: dodgerblue">{{ category.name }}</a></td>
@@ -34,11 +37,12 @@
                     </table>
                 </div>
             </div>
-            <div class="card-footer">
-                <a href="{% url 'admin_staff:admin_category_create' %}">
-                    <button class="btn btn-success">Создать категорию</button>
-                </a>
-            </div>
+            <form action="{% url 'admin_staff:admin_category_create' %}" method="post">
+                {% csrf_token %}
+                <div class="card-footer">
+                    <input class="btn btn-success" type="submit" value="Создать категорию">
+                </div>
+            </form>
         </div>
     </div>
 {% endblock %}

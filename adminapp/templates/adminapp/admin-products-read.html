@@ -1,4 +1,7 @@
 {% extends 'adminapp/base.html' %}
+{% block title %}
+    {{ title }}
+{% endblock %}
 {% block content %}
     <div class="container-fluid">
         <h1 class="mt-4">Продукты</h1>
@@ -31,7 +34,7 @@
                         </tr>
                         </tfoot>
                         <tbody>
-                        {% for product in products %}
+                        {% for product in object_list %}
                             <tr>
                                 <td><a href="{% url 'admin_staff:admin_products_update' product.id %}"
                                        style="color: dodgerblue">{{ product.name }}</a></td>
@@ -46,11 +49,13 @@
                     </table>
                 </div>
             </div>
-            <div class="card-footer">
-                <a href="{% url 'admin_staff:admin_products_create' %}">
-                    <button class="btn btn-success">Создать продукт</button>
-                </a>
-            </div>
+            <form action="{% url 'admin_staff:admin_products_create' %}">
+                {% csrf_token %}
+                <div class="card-footer">
+                    <input class="btn btn-success" type="submit" value="Создать продукт">
+                </div>
+            </form>
+
         </div>
     </div>
 {% endblock %}
