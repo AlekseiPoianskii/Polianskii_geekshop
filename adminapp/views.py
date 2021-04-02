@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponseRedirect
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy
 from django.contrib.auth.decorators import user_passes_test
 from django.utils.decorators import method_decorator
 
