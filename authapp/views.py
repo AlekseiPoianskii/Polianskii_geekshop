@@ -6,9 +6,10 @@ from django.contrib import auth
 from django.urls import reverse, reverse_lazy
 from django.contrib import messages
 from django.views.generic import FormView, UpdateView
+from django.db import transaction
 
-from authapp.forms import UserLoginForm, UserRegisterForm, UserProfileForm
-from authapp.models import User
+from authapp.forms import UserLoginForm, UserRegisterForm, UserProfileForm, UserProfileEditForm
+from authapp.models import User, UserProfile
 
 
 class LoginView(FormView):
@@ -73,7 +74,7 @@ class RegisterView(FormView):
             if user.activation_key == activation_key and not user.is_activation_key_expires():
                 user.is_active = True
                 user.save()
-                auth.login(request, user)
+                auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                 return render(request, 'authapp/verification.html')
             print(f'Error activation user: {user}')
             return render(request, 'authapp/verification.html')
@@ -101,6 +102,37 @@ class ProfileView(UpdateView):
         context['title'] = 'GeekShop - Profile'
         return context
 
+
+@transaction.atomic
+def edit(request):
+    title = 'GeekShop - Редактирование'
+    if request.method == 'POST':
+        edit_form = UserProfileForm(data=request.POST, files=request.FILES, instance=request.user)
+        profile_form = UserProfileEditForm(data=request.POST, files=request.FILES, instance=request.user.userprofile)
+        if edit_form.is_valid() and profile_form.is_valid():
+            edit_form.save()
+            return HttpResponseRedirect(reverse('auth:profile'))
+    else:
+        edit_form = UserProfileForm(data=request.POST, files=request.FILES, instance=request.user)
+        profile_form = UserProfileEditForm(data=request.POST, files=request.FILES,
+                                           instance=request.user.userprofile)
+    context = {
+        'title': title,
+        'form': edit_form,
+        'profile_form': profile_form
+    }
+    return render(request, 'authapp/profile.html', context)
+
+
+class ProfileEdit(UpdateView):
+    model = UserProfile
+    template_name = 'authapp/profile.html'
+    form_class = UserProfileForm
+    form_class_second = UserProfileEditForm
+    success_url = reverse_lazy('auth:profile')
+
+    def get(self, request, *args, **kwargs):
+        return get_object_or_404(User, pk=self.request.user.pk)
 
 def logout(request):
     auth.logout(request)
