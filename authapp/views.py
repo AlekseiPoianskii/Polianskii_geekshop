@@ -6,10 +6,12 @@ from django.contrib import auth
 from django.urls import reverse, reverse_lazy
 from django.contrib import messages
 from django.views.generic import FormView, UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 
 from authapp.forms import UserLoginForm, UserRegisterForm, UserProfileForm, UserProfileEditForm
 from authapp.models import User, UserProfile
+from basketapp.models import Basket
 
 
 class LoginView(FormView):
@@ -88,11 +90,14 @@ class RegisterView(FormView):
         return context
 
 
-class ProfileView(UpdateView):
+class ProfileView(LoginRequiredMixin, UpdateView):
     model = User
     form_class = UserProfileForm
+    form_class_second = UserProfileEditForm
     template_name = 'authapp/profile.html'
-    success_url = reverse_lazy('auth:profile')
+
+    def get_success_url(self):
+        return reverse('auth:profile', kwargs={'pk': self.kwargs['pk']})
 
     def get_object(self, **kwargs):
         return get_object_or_404(User, pk=self.request.user.pk)
@@ -100,7 +105,12 @@ class ProfileView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
         context['title'] = 'GeekShop - Profile'
+        self_pk = self.object.pk
+        user = User.objects.get(pk=self_pk)
+        context['baskets'] = Basket.objects.filter(user=user)
+        context['profile_form'] = self.form_class_second(instance=user.userprofile)
         return context
+
 
 
 @transaction.atomic
@@ -129,7 +139,7 @@ class ProfileEdit(UpdateView):
     template_name = 'authapp/profile.html'
     form_class = UserProfileForm
     form_class_second = UserProfileEditForm
-    success_url = reverse_lazy('auth:profile')
+    success_url = reverse_lazy('index')
 
     def get(self, request, *args, **kwargs):
         return get_object_or_404(User, pk=self.request.user.pk)

@@ -2,6 +2,7 @@ import hashlib
 import random
 
 from django import forms
+from django.forms.widgets import NumberInput
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 
 from authapp.models import User, UserProfile
@@ -59,7 +60,7 @@ class UserProfileForm(UserChangeForm):
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'first_name', 'last_name', 'avatar')
+        fields = ('username', 'email', 'first_name', 'last_name', 'avatar', 'bdate')
 
     def __init__(self, *args, **kwargs):
         super(UserProfileForm, self).__init__(*args, **kwargs)
@@ -68,6 +69,9 @@ class UserProfileForm(UserChangeForm):
         self.fields['username'].widget.attrs['readonly'] = True
         self.fields['email'].widget.attrs['readonly'] = True
         self.fields['avatar'].widget.attrs['class'] = 'custom-file-input'
+        self.fields['bdate'].widget = NumberInput(attrs={'type': 'date',
+                                                         'class': 'form-control py-4'})
+
 
 class UserProfileEditForm(forms.ModelForm):
     class Meta:
