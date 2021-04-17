@@ -1,0 +1,221 @@
+[
+  {
+    "model": "authapp.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$150000$vhBhwomTmS6b$7dc4MTzaPcilJXq8gbE3B+Qhpfx8eAF9xrDqMIPUDnU=",
+      "last_login": "2021-04-04T15:50:25.862Z",
+      "is_superuser": true,
+      "username": "admin",
+      "first_name": "",
+      "last_name": "",
+      "email": "admin@mail.ru",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2021-04-04T15:35:24.693Z",
+      "avatar": "",
+      "activation_key": "",
+      "activation_key_expires": "2021-04-06T15:35:09.281Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "authapp.user",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$150000$X0EKGnn0zxHd$k/iGsfx6Xd44bhuT4ypBM631aGrBgWKYBryu9W8ku30=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "dsfsgsergsdgdfv",
+      "first_name": "dfgsregsreg",
+      "last_name": "\u041f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044c",
+      "email": "efgefvdf@wffwefew.3w",
+      "is_staff": false,
+      "is_active": false,
+      "date_joined": "2021-04-04T15:43:10.156Z",
+      "avatar": "",
+      "activation_key": "b3683f47c58216dde171e667b8f7ef4f4f95b6b6",
+      "activation_key_expires": "2021-04-06T15:36:51.125Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "authapp.user",
+    "pk": 3,
+    "fields": {
+      "password": "pbkdf2_sha256$150000$aOmePQdH9XbF$IwYX/sMCTHvnf6a3yZ+9+X1TaHwjVd7nnjJoGfNCGlU=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "TestUser",
+      "first_name": "ewrwef",
+      "last_name": "wefwae",
+      "email": "testuser@mail.ru",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2021-04-04T15:43:31.149Z",
+      "avatar": "",
+      "activation_key": "af0f07ba64f55f79690f30bc882e141c54c95a3d",
+      "activation_key_expires": "2021-04-06T15:36:51.125Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "authapp.user",
+    "pk": 4,
+    "fields": {
+      "password": "pbkdf2_sha256$150000$pc1epOkhRYJb$QOWVkvTc7vMgR34leZ8z1v74//ryWdoiNdytyoveSBI=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "pornhub",
+      "first_name": "\u0422\u0435\u0441\u0442\u043e\u0432\u044b\u0439",
+      "last_name": "\u041f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044c",
+      "email": "pornhub@sdas.dw",
+      "is_staff": false,
+      "is_active": false,
+      "date_joined": "2021-04-04T15:43:59.842Z",
+      "avatar": "",
+      "activation_key": "59fc0727da3a6e13149403e71283a858f47d44f6",
+      "activation_key_expires": "2021-04-06T15:36:51.125Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "authapp.user",
+    "pk": 5,
+    "fields": {
+      "password": "pbkdf2_sha256$150000$lPwOFLYppN7s$O+lAI+qsjnSwIHKQeB9OH6LVzNUctcKGJOJTJYGvShk=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "fdgsdffvsweaae",
+      "first_name": "adsf2tfgsdasd",
+      "last_name": "favrgtht",
+      "email": "dftgbsdfvserfs@gfdffvsdfs.rt",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2021-04-04T15:44:29.514Z",
+      "avatar": "",
+      "activation_key": "203749003902351434fc8ba85da3bd38d408dcd9",
+      "activation_key_expires": "2021-04-06T15:36:51.125Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "authapp.user",
+    "pk": 6,
+    "fields": {
+      "password": "pbkdf2_sha256$150000$BudFU9AyA88l$oQ/QX8lcS+//hAExTT6SSYXp/XJwgXK9tRgUnt4Mryg=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "dfgbdsffgersrg",
+      "first_name": "erqwerffasv",
+      "last_name": "ngfdvdfvdxv",
+      "email": "gnhjmjjm@sdavc.dty",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2021-04-04T15:44:51.872Z",
+      "avatar": "",
+      "activation_key": "c09319c42ec421ca683d2c4faf9245f1ada282ce",
+      "activation_key_expires": "2021-04-06T15:36:51.125Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "authapp.user",
+    "pk": 7,
+    "fields": {
+      "password": "pbkdf2_sha256$150000$tVGo2BsLpaoC$6DjM/u4nhaZDORFKK3PUUw8eReYFDqwDB9s4pebH+tU=",
+      "last_login": "2021-04-04T15:51:11.230Z",
+      "is_superuser": false,
+      "username": "TestUser2",
+      "first_name": "\u0422\u0435\u0441\u0442\u043e\u0432\u044b\u0439",
+      "last_name": "\u041f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044c",
+      "email": "testuser@mail.ru",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2021-04-04T15:46:37Z",
+      "avatar": "",
+      "activation_key": "8d365f6a2dd466cbf996fa5f79c2569b82156cf0",
+      "activation_key_expires": "2021-04-06T15:36:51Z",
+      "groups": [
+        1
+      ],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "authapp.userprofile",
+    "pk": 1,
+    "fields": {
+      "user": 1,
+      "tagline": "",
+      "about_me": "",
+      "gender": ""
+    }
+  },
+  {
+    "model": "authapp.userprofile",
+    "pk": 2,
+    "fields": {
+      "user": 2,
+      "tagline": "",
+      "about_me": "",
+      "gender": ""
+    }
+  },
+  {
+    "model": "authapp.userprofile",
+    "pk": 3,
+    "fields": {
+      "user": 3,
+      "tagline": "",
+      "about_me": "",
+      "gender": ""
+    }
+  },
+  {
+    "model": "authapp.userprofile",
+    "pk": 4,
+    "fields": {
+      "user": 4,
+      "tagline": "",
+      "about_me": "",
+      "gender": ""
+    }
+  },
+  {
+    "model": "authapp.userprofile",
+    "pk": 5,
+    "fields": {
+      "user": 5,
+      "tagline": "",
+      "about_me": "",
+      "gender": ""
+    }
+  },
+  {
+    "model": "authapp.userprofile",
+    "pk": 6,
+    "fields": {
+      "user": 6,
+      "tagline": "",
+      "about_me": "",
+      "gender": ""
+    }
+  },
+  {
+    "model": "authapp.userprofile",
+    "pk": 7,
+    "fields": {
+      "user": 7,
+      "tagline": "",
+      "about_me": "",
+      "gender": ""
+    }
+  }
+]
