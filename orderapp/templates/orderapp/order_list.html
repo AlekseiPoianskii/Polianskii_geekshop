@@ -1,0 +1,70 @@
+{% extends 'mainapp/base.html' %}
+{% load staticfiles %}
+
+
+{% block content %}
+    <div class="container">
+        <div class="h2 text-center head">
+            Ваши заказы,
+            {% if user.first_name %}
+                {{ user.first_name|title }}
+            {% else %}
+                Пользователь
+            {% endif %}
+        </div>
+        <table class="table orders_list">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Создан</th>
+                <th>Обновлен</th>
+                <th>Статус</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in object_list %}
+                {% if item.is_active %}
+                    <tr>
+                        <td class="td1 orders_list">{{ item.pk }}</td>
+                        <td>{{ item.created|date:"Y-m-d H:i:s" }}</td>
+                        <td>{{ item.updated|date:"Y-m-d H:i:s" }}</td>
+                        <td>{{ item.get_status_display }}</td>
+                        <td>
+                            <a href="{% url 'orders:order_read' item.pk %}">
+                                посмотреть
+                            </a>
+                        </td>
+                        <td>
+                            {% if item.status == 'FM' %}
+                                <a href="{% url 'orders:order_update' item.pk %}">
+                                    редактировать
+                                </a>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if item.status == 'FM' %}
+                                <a href="{% url 'orders:order_delete' item.pk %}">
+                                    удалить
+                                </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="card-footer">
+            <div class="row">
+                <form action="{% url 'index' %}">
+                    {% csrf_token %}
+                    <input class="btn btn-info" type="submit" value="На главную" style="margin-right: 32px">
+                </form>
+                <form action="{% url 'orders:order_create' %}" method="post">
+                    {% csrf_token %}
+                    <input class="btn btn-success" type="submit" value="Новый заказ">
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -14,6 +14,7 @@ from authapp.models import User, UserProfile
 from basketapp.models import Basket
 
 
+# Log in User
 class LoginView(FormView):
     model = User
     success_url = reverse_lazy('index')
@@ -28,8 +29,8 @@ class LoginView(FormView):
             pwd = form.cleaned_data.get('password')
 
             user = authenticate(
-                username = usr,
-                password = pwd,
+                username=usr,
+                password=pwd,
             )
 
             if user and user.is_active:
@@ -43,6 +44,7 @@ class LoginView(FormView):
         return context
 
 
+# Register User
 class RegisterView(FormView):
     model = User
     form_class = UserRegisterForm
@@ -90,6 +92,7 @@ class RegisterView(FormView):
         return context
 
 
+# Profile info
 class ProfileView(LoginRequiredMixin, UpdateView):
     model = User
     form_class = UserProfileForm
@@ -112,38 +115,7 @@ class ProfileView(LoginRequiredMixin, UpdateView):
         return context
 
 
-
-@transaction.atomic
-def edit(request):
-    title = 'GeekShop - Редактирование'
-    if request.method == 'POST':
-        edit_form = UserProfileForm(data=request.POST, files=request.FILES, instance=request.user)
-        profile_form = UserProfileEditForm(data=request.POST, files=request.FILES, instance=request.user.userprofile)
-        if edit_form.is_valid() and profile_form.is_valid():
-            edit_form.save()
-            return HttpResponseRedirect(reverse('auth:profile'))
-    else:
-        edit_form = UserProfileForm(data=request.POST, files=request.FILES, instance=request.user)
-        profile_form = UserProfileEditForm(data=request.POST, files=request.FILES,
-                                           instance=request.user.userprofile)
-    context = {
-        'title': title,
-        'form': edit_form,
-        'profile_form': profile_form
-    }
-    return render(request, 'authapp/profile.html', context)
-
-
-class ProfileEdit(UpdateView):
-    model = UserProfile
-    template_name = 'authapp/profile.html'
-    form_class = UserProfileForm
-    form_class_second = UserProfileEditForm
-    success_url = reverse_lazy('index')
-
-    def get(self, request, *args, **kwargs):
-        return get_object_or_404(User, pk=self.request.user.pk)
-
+# Log out User
 def logout(request):
     auth.logout(request)
     return HttpResponseRedirect(reverse('index'))

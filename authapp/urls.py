@@ -1,6 +1,6 @@
 from django.urls import path
 
-from authapp.views import LoginView, RegisterView, logout, ProfileView, edit, ProfileEdit
+from authapp.views import LoginView, RegisterView, logout, ProfileView
 
 app_name = 'authapp'
 
