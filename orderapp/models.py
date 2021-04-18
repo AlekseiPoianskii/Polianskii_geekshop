@@ -1,7 +1,6 @@
-from django.db import models
 from django.conf import settings
-
-from basketapp.models import Product
+from django.db import models
+from mainapp.models import Product
 
 
 class Order(models.Model):
@@ -15,10 +14,10 @@ class Order(models.Model):
     ORDER_STATUS_CHOICES = (
         (FORMING, 'формируется'),
         (SENT_TO_PROCEED, 'отправлено в обработку'),
-        (PAID, 'оплачено'),
+        (PAID, 'оплачен'),
         (PROCEEDED, 'обрабатывается'),
-        (READY, 'готов к выдачи'),
-        (CANCEL, 'отменен'),
+        (READY, 'готов к выдаче'),
+        (CANCEL, 'отмене'),
     )
 
     user = models.ForeignKey(
@@ -32,7 +31,7 @@ class Order(models.Model):
     )
 
     updated = models.DateTimeField(
-        verbose_name='обнавлен',
+        verbose_name='обновлен',
         auto_now=True
     )
 
@@ -45,7 +44,7 @@ class Order(models.Model):
 
     is_active = models.BooleanField(
         verbose_name='активен',
-        default=True,
+        default=True
     )
 
     class Meta:
@@ -54,13 +53,13 @@ class Order(models.Model):
         verbose_name_plural = 'заказы'
 
     def __str__(self):
-        return f'Теущий заказ {self.id}'
+        return f'Текущий заказ {self.pk}'
 
     def get_total_quantity(self):
         items = self.orderitems.select_related()
         return sum(list(map(lambda x: x.quantity, items)))
 
-    def get_product_quantity(self):
+    def get_product_type_quantity(self):
         items = self.orderitems.select_related()
         return len(items)
 
@@ -68,7 +67,8 @@ class Order(models.Model):
         items = self.orderitems.select_related()
         return sum(list(map(lambda x: x.quantity * x.product.price, items)))
 
-    def delete(self, using=None, keep_parents=False):
+    # переопределяем метод, удаляющий объект
+    def delete(self):
         for item in self.orderitems.select_related():
             item.product.quantity += item.quantity
             item.product.save()
@@ -81,22 +81,25 @@ class OrderItem(models.Model):
     order = models.ForeignKey(
         Order,
         related_name="orderitems",
-        on_delete=models.CASCADE,
+        on_delete=models.CASCADE
     )
 
     product = models.ForeignKey(
         Product,
         verbose_name='продукт',
-        on_delete=models.CASCADE,
+        on_delete=models.CASCADE
     )
 
     quantity = models.PositiveIntegerField(
-        verbose_name='продукт',
-        default=0,
+        verbose_name='количество',
+        default=0
     )
 
     def get_product_cost(self):
         return self.product.price * self.quantity
+
+    def __str__(self):
+        return f'Текущий заказ {self.pk}'
 
     class Meta:
         verbose_name = 'элемент заказа'

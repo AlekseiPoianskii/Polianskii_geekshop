@@ -1,0 +1,26 @@
+<div class="justify-content-center mt-2">
+    {% if object.status == 'FM' %}
+        <div class="container w-75">
+            <div class="d-flex justify-content-sm-between mt-2">
+                <form action="{% url 'orders:order_forming_complete' object.pk %}">
+                    {% csrf_token %}
+                    <input class="btn btn-success" type="submit" value="Совершить покупку">
+                </form>
+                <form action="{% url 'orders:order_delete' object.pk %}">
+                    {% csrf_token %}
+                    <input class="btn btn-danger" type="submit" value="Удалить заказ">
+                </form>
+            </div>
+        </div>
+    {% endif %}
+    <div class="container w-75">
+        <form class="mt-2" action="{% url 'orders:orders_list' %}">
+            {% csrf_token %}
+            <input class="btn btn-info w-100" type="submit" value="К списку заказов">
+        </form>
+        <form class="mt-2" action="{% url 'index' %}">
+            {% csrf_token %}
+            <input class="btn btn-info w-100" type="submit" value="На главную">
+        </form>
+    </div>
+</div>
