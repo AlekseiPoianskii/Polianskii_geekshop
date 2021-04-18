@@ -17,7 +17,7 @@ class OrderList(LoginRequiredMixin, ListView):
     model = Order
 
     def get_queryset(self):
-        return Order.objects.filter(user=self.request.user)
+        return Order.objects.filter(user=self.request.user, is_active=True)
 
 
 class OrderCreate(LoginRequiredMixin, CreateView):
