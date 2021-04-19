@@ -34,7 +34,7 @@ class UserRegisterForm(UserCreationForm):
         self.fields['email'].widget.attrs['placeholder'] = 'Введите адрес эл. почты'
         self.fields['first_name'].widget.attrs['placeholder'] = 'Введите имя'
         self.fields['last_name'].widget.attrs['placeholder'] = 'Введите фамилию'
-        self.fields['password1'].widget.attrs['placeholder'] = 'Введите парольь'
+        self.fields['password1'].widget.attrs['placeholder'] = 'Введите пароль'
         self.fields['password2'].widget.attrs['placeholder'] = 'Подтвердите пароль'
         self.fields['username'].widget.attrs['type'] = 'text'
         self.fields['email'].widget.attrs['type'] = 'email'
