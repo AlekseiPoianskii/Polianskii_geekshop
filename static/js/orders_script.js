@@ -9,15 +9,15 @@ window.onload = function () {
     let order_total_quantity = parseInt($('.order_total_quantity').text()) || 0;
     let order_total_price = parseFloat($('.order_total_cost').text().replace(',', '.')) || 0;
 
-    for(let i=0; i < total_forms; i ++){
-        _quantity = parseInt($('input[name=orderitems-' + i + '-quantity]').val());
-        _price = parseFloat($('.orderitems-' + i + '-price').text().replace(',', '.'));
+    for(let item=0; item < total_forms; item ++){
+        _quantity = parseInt($('input[name=orderitems-' + item + '-quantity]').val());
+        _price = parseFloat($('.orderitems-' + item + '-price').text().replace(',', '.'));
 
-        quantity_arr[i] = _quantity;
+        quantity_arr[item] = _quantity;
         if(_price){
-            price_arr[i] = _price;
+            price_arr[item] = _price;
         } else {
-            price_arr[i] = 0;
+            price_arr[item] = 0;
         }
         console.log(quantity_arr);
         console.info('QUANTITY_ARR: ', quantity_arr);
