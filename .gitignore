@@ -4,3 +4,4 @@ db.sqlite3
 media
 geekshop/.env
 geekshop/vk.json
+geekshop/user_info.json
