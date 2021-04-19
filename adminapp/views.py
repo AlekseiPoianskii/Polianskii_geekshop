@@ -105,6 +105,7 @@ class ProductCreateView(CreateView):
         context['title'] = 'GeekShop - Создание продукта'
         return context
 
+
 class ProductUpdateView(UpdateView):
     model = Product
     template_name = 'adminapp/admin-products-update-delete.html'
@@ -175,6 +176,7 @@ class CategoryUpdateView(UpdateView):
         context = super(CategoryUpdateView, self).get_context_data(**kwargs)
         context['title'] = 'GeekShop - Редактирование категории'
         return context
+
 
 class CategoryDeleteView(DeleteView):
     model = ProductCategory

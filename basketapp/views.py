@@ -31,6 +31,7 @@ def basket_delete(request, id=None):
 
 @login_required
 def basket_edit(request, id, quantity):
+    global result_data
     if request.is_ajax():
         basket = Basket.objects.get(id=id)
         if quantity > 0:
@@ -40,5 +41,5 @@ def basket_edit(request, id, quantity):
             basket.delete()
         baskets = Basket.objects.filter(user=request.user)
         context = {'baskets': baskets}
-        result = render_to_string('basketapp/basket.html', context)
-    return JsonResponse({'result': result})
+        result_data = render_to_string('basketapp/basket.html', context)
+    return JsonResponse({'result': result_data})

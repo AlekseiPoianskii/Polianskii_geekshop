@@ -9,7 +9,7 @@ from social_core.exceptions import AuthForbidden
 from authapp.models import UserProfile
 
 
-def save_user_profile(backend, user, request, *args, **kwargs):
+def save_user_profile(backend, user, response, *args, **kwargs):
     if backend.name != 'vk-oauth2':
         return
     api_url = urlunparse(
@@ -36,12 +36,12 @@ def save_user_profile(backend, user, request, *args, **kwargs):
     if data['about']:
         user.userprofile.about_me = data['about']
 
-    # if data['bdate']:
-    #     bdate = datetime.strptime(data['bdate'], '%d.%m.%Y').date()
-    #
-    #     age = timezone.now().date().year - bdate.year
-    #     if age < 18:
-    #         user.delete()
-    #         raise AuthForbidden('social_core.backends.vk.VKOAuth2')
+    if data['bdate']:
+        bdate = datetime.strptime(data['bdate'], '%d.%m.%Y').date()
+        user.bdate = bdate
+        age = timezone.now().date().year - bdate.year
+        if age < 18:
+            user.delete()
+            raise AuthForbidden('social_core.backends.vk.VKOAuth2')
 
     user.save()

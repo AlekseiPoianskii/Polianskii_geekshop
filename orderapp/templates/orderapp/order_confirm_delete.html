@@ -1,0 +1,28 @@
+{% extends 'mainapp/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="container">
+        <div class="p-4">
+            <div class="category_delete">
+                <div class="h1">Уверены, что хотите удалить?</div>
+                {% include 'orderapp/includes/inc_order_summary.html' %}
+                <div class="justify-content-center">
+                    <div class="container w-75">
+                        <form action="{% url 'orderapp:order_delete' object.pk %}" method="post">
+                            {% csrf_token %}
+                            <input class="btn btn-danger w-100" type="submit" value="Удалить">
+                        </form>
+                        <form action="{% url 'orderapp:order_delete' object.pk %}" method="post">
+                            {% csrf_token %}
+                            <input class="btn btn-success w-100 mt-2" type="submit" value="Отмена">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+    <script src="{% static 'js/orders_script.js' %}"></script>
+{% endblock %}

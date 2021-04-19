@@ -6,12 +6,15 @@ from django.contrib import auth
 from django.urls import reverse, reverse_lazy
 from django.contrib import messages
 from django.views.generic import FormView, UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 
 from authapp.forms import UserLoginForm, UserRegisterForm, UserProfileForm, UserProfileEditForm
 from authapp.models import User, UserProfile
+from basketapp.models import Basket
 
 
+# Log in User
 class LoginView(FormView):
     model = User
     success_url = reverse_lazy('index')
@@ -26,8 +29,8 @@ class LoginView(FormView):
             pwd = form.cleaned_data.get('password')
 
             user = authenticate(
-                username = usr,
-                password = pwd,
+                username=usr,
+                password=pwd,
             )
 
             if user and user.is_active:
@@ -41,6 +44,7 @@ class LoginView(FormView):
         return context
 
 
+# Register User
 class RegisterView(FormView):
     model = User
     form_class = UserRegisterForm
@@ -88,11 +92,15 @@ class RegisterView(FormView):
         return context
 
 
-class ProfileView(UpdateView):
+# Profile info
+class ProfileView(LoginRequiredMixin, UpdateView):
     model = User
     form_class = UserProfileForm
+    form_class_second = UserProfileEditForm
     template_name = 'authapp/profile.html'
-    success_url = reverse_lazy('auth:profile')
+
+    def get_success_url(self):
+        return reverse('auth:profile', kwargs={'pk': self.kwargs['pk']})
 
     def get_object(self, **kwargs):
         return get_object_or_404(User, pk=self.request.user.pk)
@@ -100,40 +108,14 @@ class ProfileView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
         context['title'] = 'GeekShop - Profile'
+        self_pk = self.object.pk
+        user = User.objects.get(pk=self_pk)
+        context['baskets'] = Basket.objects.filter(user=user)
+        context['profile_form'] = self.form_class_second(instance=user.userprofile)
         return context
 
 
-@transaction.atomic
-def edit(request):
-    title = 'GeekShop - Редактирование'
-    if request.method == 'POST':
-        edit_form = UserProfileForm(data=request.POST, files=request.FILES, instance=request.user)
-        profile_form = UserProfileEditForm(data=request.POST, files=request.FILES, instance=request.user.userprofile)
-        if edit_form.is_valid() and profile_form.is_valid():
-            edit_form.save()
-            return HttpResponseRedirect(reverse('auth:profile'))
-    else:
-        edit_form = UserProfileForm(data=request.POST, files=request.FILES, instance=request.user)
-        profile_form = UserProfileEditForm(data=request.POST, files=request.FILES,
-                                           instance=request.user.userprofile)
-    context = {
-        'title': title,
-        'form': edit_form,
-        'profile_form': profile_form
-    }
-    return render(request, 'authapp/profile.html', context)
-
-
-class ProfileEdit(UpdateView):
-    model = UserProfile
-    template_name = 'authapp/profile.html'
-    form_class = UserProfileForm
-    form_class_second = UserProfileEditForm
-    success_url = reverse_lazy('auth:profile')
-
-    def get(self, request, *args, **kwargs):
-        return get_object_or_404(User, pk=self.request.user.pk)
-
+# Log out User
 def logout(request):
     auth.logout(request)
     return HttpResponseRedirect(reverse('index'))

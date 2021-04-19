@@ -19,6 +19,8 @@ environ.Env.read_env()
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+with open('geekshop/user_info.json', 'r') as f:
+    USER_INFO = json.load(f)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -27,9 +29,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '77pq0s(9$ay5_5&+sv5gjyzveo+ey0gwp008tls7@bli!i*3e^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', '127.0.0.1:8000']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -46,6 +48,7 @@ INSTALLED_APPS = [
     'authapp',
     'basketapp',
     'social_django',
+    'orderapp',
 ]
 
 MIDDLEWARE = [
@@ -86,10 +89,18 @@ WSGI_APPLICATION = 'geekshop.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': USER_INFO["NAME"],
+        'USER': USER_INFO["USER"],
     }
 }
 
@@ -117,11 +128,8 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.vk.VKOAuth2'
 )
 
-with open('geekshop/vk.json', 'r') as f:
-    VK = json.load(f)
-
-SOCIAL_AUTH_VK_OAUTH2_KEY = VK["SOCIAL_AUTH_VK_OAUTH2_KEY"],
-SOCIAL_AUTH_VK_OAUTH2_SECRET = VK["SOCIAL_AUTH_VK_OAUTH2_SECRET"]
+SOCIAL_AUTH_VK_OAUTH2_KEY = USER_INFO['SOCIAL_AUTH_VK_OAUTH2_KEY']
+SOCIAL_AUTH_VK_OAUTH2_SECRET = USER_INFO['SOCIAL_AUTH_VK_OAUTH2_SECRET']
 
 # SOCIAL_AUTH_VK_OAUTH2_KEY = env("SOCIAL_AUTH_VK_OAUTH2_KEY"])
 # SOCIAL_AUTH_VK_OAUTH2_SECRET = env(["SOCIAL_AUTH_VK_OAUTH2_SECRET"])
