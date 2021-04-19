@@ -1,7 +1,7 @@
 from django.db import transaction
 from django.db.models.signals import pre_save
 from django.forms import inlineformset_factory
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.dispatch import receiver
 
@@ -9,6 +9,7 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, DeleteView, DetailView, UpdateView
 
 from orderapp.models import Order, OrderItem
+from mainapp.models import Product
 from basketapp.models import Basket
 from orderapp.forms import OrderForm, OrderItemsForm
 
@@ -36,8 +37,8 @@ class OrderCreate(LoginRequiredMixin, CreateView):
                formset = OrderFormSet(self.request.POST)
            else:
                basket_items = Basket.objects.filter(user=self.request.user)
-               if len(basket_items):
-                   OrderFormSet = inlineformset_factory(Order, OrderItem, form=OrderItemsForm, extra=len(basket_items))
+               if basket_items:
+                   OrderFormSet = inlineformset_factory(Order, OrderItem, form=OrderItemsForm, extra=basket_items.count())
                    formset = OrderFormSet()
                    for num, form in enumerate(formset.forms):
                        form.initial['product'] = basket_items[num].product
@@ -149,3 +150,10 @@ def product_quantity_update_delete(sender, update_fields, instance, **kwargs):
     if update_fields == 'quantity' 'product':
         instance.product.quantity += instance.quantity
         instance.product.save()
+
+def get_product_price(request, pk):
+    if request.is_ajax():
+        product = Product.objects.filter(pk=pk).first()
+        if product:
+            return JsonResponse({'price': product.price})
+        return JsonResponse({'price': 0})

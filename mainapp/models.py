@@ -7,6 +7,10 @@ class ProductCategory(models.Model):
     def __str__(self):
         return self.name
 
+    @staticmethod
+    def get_items():
+        return Product.objects.filter(is_active=True).order_by('category', 'name')
+
 class Product(models.Model):
     category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
     name = models.CharField(max_length=192)
@@ -19,5 +23,6 @@ class Product(models.Model):
     def __str__(self):
         return f'{self.name} || {self.category.name}'
 
-    def get_items(self):
+    @staticmethod
+    def get_items():
         return Product.objects.filter(is_active=True).order_by('category', 'name')
